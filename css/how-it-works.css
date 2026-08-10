@@ -1,0 +1,168 @@
+/* ==========================================================================
+   HOW IT WORKS & WHY KETTO STYLES
+   ========================================================================== */
+
+/* How It Works (3 Steps) */
+.how-it-works-section {
+  padding: 80px 0;
+  background-color: var(--white);
+}
+
+.steps-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  position: relative;
+}
+
+.step-card {
+  background: var(--slate-50);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-xl);
+  padding: 36px 28px;
+  position: relative;
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+}
+
+.step-card:hover {
+  background: var(--white);
+  border-color: var(--primary);
+  box-shadow: 0 16px 32px -8px rgba(1, 191, 189, 0.15);
+  transform: translateY(-4px);
+}
+
+.step-number {
+  position: absolute;
+  top: 24px;
+  right: 24px;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--slate-200);
+  font-family: var(--font-display);
+  line-height: 1;
+}
+
+.step-icon-wrap {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--primary-light) 0%, #cffafe 100%);
+  color: var(--primary-dark);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.75rem;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 12px rgba(1, 191, 189, 0.15);
+}
+
+.step-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--slate-900);
+  margin-bottom: 12px;
+}
+
+.step-desc {
+  font-size: 0.95rem;
+  color: var(--slate-600);
+  line-height: 1.6;
+}
+
+/* Why Ketto (6 Feature Pillars) */
+.why-ketto-section {
+  padding: 80px 0;
+  background-color: #f8fafc;
+  border-top: 1px solid var(--slate-200);
+  border-bottom: 1px solid var(--slate-200);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.feature-box {
+  background: var(--white);
+  border: 1px solid var(--slate-200);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  transition: var(--transition);
+}
+
+.feature-box:hover {
+  border-color: var(--primary);
+  box-shadow: var(--shadow-md);
+}
+
+.feature-icon-circle {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+  font-size: 1.35rem;
+}
+
+.feature-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--slate-900);
+  margin-bottom: 8px;
+}
+
+.feature-text {
+  font-size: 0.9rem;
+  color: var(--slate-600);
+  line-height: 1.5;
+}
+
+/* Hospital Partners Strip */
+.partners-section {
+  padding: 44px 0;
+  background-color: var(--white);
+  text-align: center;
+}
+
+.partners-title {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--slate-400);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 24px;
+}
+
+.partners-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 36px;
+  flex-wrap: wrap;
+  opacity: 0.75;
+}
+
+.partner-badge {
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: var(--slate-600);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: 1px dashed var(--slate-300);
+  border-radius: var(--radius-md);
+}
+
+@media (max-width: 768px) {
+  .steps-grid, .features-grid {
+    grid-template-columns: 1fr;
+  }
+}

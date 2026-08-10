@@ -1,0 +1,83 @@
+<!-- MODAL 1: QUICK DONATE (FRONTEND DEMO) -->
+<div class="modal-overlay" id="donateModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close modal">✕</button>
+    <h3 class="modal-title">Make a Contribution</h3>
+    <p class="modal-subtitle">Choose an amount to support this verified medical fundraiser.</p>
+
+    <div class="donate-presets-grid">
+      <button class="donate-preset-btn" data-amount="500">₹500</button>
+      <button class="donate-preset-btn active" data-amount="1000">₹1,000</button>
+      <button class="donate-preset-btn" data-amount="2500">₹2,500</button>
+      <button class="donate-preset-btn" data-amount="5000">₹5,000</button>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Enter Custom Amount (₹)</label>
+      <input type="number" class="custom-amount-input" value="1000" placeholder="e.g. 1000">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your Full Name</label>
+      <input type="text" class="form-input donor-name-input" placeholder="e.g. Rahul Sharma" value="Rahul Sharma">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Email Address (for 80G Tax Receipt)</label>
+      <input type="email" class="form-input donor-email-input" placeholder="rahul@example.com" value="rahul@example.com">
+    </div>
+
+    <div class="tax-check-row">
+      <input type="checkbox" id="tax80g" checked>
+      <label for="tax80g">I want an 80G Tax Exemption Certificate</label>
+    </div>
+
+    <button class="btn-primary-cta" id="donateSubmitBtn" style="width: 100%; padding: 14px; font-size: 1rem;">
+      Proceed to Pay (Simulated)
+    </button>
+  </div>
+</div>
+
+<!-- MODAL 2: START FUNDRAISER (FRONTEND DEMO) -->
+<div class="modal-overlay" id="startModal">
+  <div class="modal-box">
+    <button class="modal-close-btn" aria-label="Close modal">✕</button>
+    <h3 class="modal-title">Start a Fundraiser with 0% Fee</h3>
+    <p class="modal-subtitle">Raise money for medical bills, education, or social causes in 2 minutes.</p>
+
+    <div class="form-group">
+      <label class="form-label">Who are you raising funds for?</label>
+      <select class="form-input">
+        <option>Myself / Immediate Family</option>
+        <option>A Friend / Colleague</option>
+        <option>Registered NGO / Charity</option>
+        <option>Animal Welfare / Rescue</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Fundraising Cause</label>
+      <select class="form-input">
+        <option>Medical Emergency / Surgery</option>
+        <option>Cancer Treatment</option>
+        <option>Child Health & NICU</option>
+        <option>Education Aid</option>
+        <option>Animal Shelter</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Target Goal Amount (₹)</label>
+      <input type="number" class="form-input" placeholder="e.g. 500000" value="500000">
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Your Mobile Number (For WhatsApp Updates)</label>
+      <input type="tel" class="form-input" placeholder="+91 98765 43210" value="+91 98765 43210">
+    </div>
+
+    <button class="btn-primary-cta" id="startSubmitBtn" style="width: 100%; padding: 14px; font-size: 1rem; margin-top: 10px;">
+      Submit & Talk to Campaign Expert
+    </button>
+  </div>
+</div>

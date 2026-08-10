@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ketto: Crowdfunding India | Online Crowdfunding Website in India</title>
+  <meta name="description" content="Ketto is India's leading crowdfunding website! Start campaigns with 0% platform fee to raise funds for Medical Emergencies, Cancer Care, Child Health, Education & NGOs.">
+  <meta name="theme-color" content="#01bfbd">
+
+  <!-- Google Fonts: Plus Jakarta Sans & DM Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400..800;1,9..40,400..800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Modular CSS (each file linked directly so it works offline / file:// protocol) -->
+  <link rel="stylesheet" href="css/global.css">
+  <link rel="stylesheet" href="css/header.css">
+  <link rel="stylesheet" href="css/hero.css">
+  <link rel="stylesheet" href="css/campaigns.css">
+  <link rel="stylesheet" href="css/sip.css">
+  <link rel="stylesheet" href="css/how-it-works.css">
+  <link rel="stylesheet" href="css/faq.css">
+  <link rel="stylesheet" href="css/footer.css">
+  <link rel="stylesheet" href="css/modals.css">
+</head>
+<body>
+
+  <!-- ======================================================================
+       ██ MEMBER 1: NAVIGATION, BRANDING & HERO IMPACT
+       Files: components/header.html, components/hero.html, components/stats.html
+       CSS:   css/header.css, css/hero.css
+       JS:    js/header.js
+       ====================================================================== -->
+
+  <!-- TOP NOTIFICATION BAR -->
+  <div class="top-bar">
+    <div class="container">
+      <div class="top-bar-left">
+        <span class="top-badge">0% Fee</span>
+        <span>Start a fundraiser with 0% Platform Fee. Maximize funds for your loved ones!</span>
+      </div>
+      <div class="top-bar-right">
+        <a href="tel:+919930088522" class="top-link">
+          <span>📞 24/7 Helpline: +91 99300 88522</span>
+        </a>
+        <a href="#how-it-works" class="top-link">How It Works</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- STICKY NAVBAR -->
+  <header class="header">
+    <div class="container">
+      <div class="nav-container">
+        <!-- Logo -->
+        <a href="index.html" class="logo-container">
+          <div class="logo-icon">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/>
+            </svg>
+          </div>
+          <div class="logo-text">
+            ketto
+            <span class="logo-sub">For Everyone</span>
+          </div>
+        </a>
+
+        <!-- Search Bar -->
+        <div class="header-search">
+          <div class="search-input-wrapper">
+            <span class="search-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+              </svg>
+            </span>
+            <input type="text" class="search-input" placeholder="Search by cause, patient or NGO...">
+          </div>
+        </div>
+
+        <!-- Navigation Links -->
+        <ul class="nav-menu">
+          <li>
+            <a href="#campaigns" class="nav-link">
+              Browse Fundraisers
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"></polyline></svg>
+            </a>
+          </li>
+          <li><a href="#how-it-works" class="nav-link">How It Works</a></li>
+          <li>
+            <a href="#sip-section" class="nav-link">
+              Social Impact Plan
+              <span class="nav-badge-sip">New</span>
+            </a>
+          </li>
+          <li>
+            <a href="https://api.whatsapp.com/send?phone=919930088522" target="_blank" class="whatsapp-nav-btn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+              </svg>
+              Chat on WhatsApp
+            </a>
+          </li>
+        </ul>
+
+        <!-- Action Buttons -->
+        <div class="nav-actions">
+          <button class="btn-signin">Sign In</button>
+          <button class="btn-primary-cta open-start-modal">
+            <span>Start a Fundraiser</span>
+            <span style="font-size:0.75rem; background:rgba(255,255,255,0.25); padding:2px 6px; border-radius:10px;">0% Fee</span>
+          </button>
+          <button class="mobile-menu-toggle" aria-label="Toggle menu">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="container">
+      <div class="hero-grid">
+        <!-- Left Hero Content -->
+        <div class="hero-content">
+          <div class="hero-tag">
+            <span>🛡️ India's Most Trusted Crowdfunding Platform</span>
+          </div>
+          <h1 class="hero-title">
+            Need Funds to Pay For a <span class="highlight">Medical Emergency</span> or Social Cause?
+          </h1>
+          <p class="hero-desc">
+            Crowdfunding on Ketto is fast, transparent, and comes with <strong>0% Platform Fee</strong>. Raise money for hospital bills, surgeries, or noble causes with support from 55 Lakh+ donors.
+          </p>
+
+          <div class="hero-cta-group">
+            <button class="btn-hero-main open-start-modal">
+              <span>Start a Fundraiser for FREE</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </button>
+            <a href="#campaigns" class="btn-hero-secondary">
+              <span>Donate to Ongoing Causes</span>
+            </a>
+          </div>
+
+          <!-- Hero Trust Pillars -->
+          <div class="hero-trust-pillars">
+            <div class="pillar-item">
+              <div class="pillar-icon">0%</div>
+              <div class="pillar-content">
+                <h4>Platform Fee</h4>
+                <p>Keep 100% of funds raised</p>
+              </div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">24h</div>
+              <div class="pillar-content">
+                <h4>Fast Disbursal</h4>
+                <p>Direct hospital transfer</p>
+              </div>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">80G</div>
+              <div class="pillar-content">
+                <h4>Tax Benefits</h4>
+                <p>Save tax on your donations</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Visual -->
+        <div class="hero-visual-wrapper">
+          <div class="hero-img-card">
+            <img src="assets/images/hero-banner.png" alt="Doctor caring for patient family">
+          </div>
+
+          <!-- Floating Overlays -->
+          <div class="floating-stat-card">
+            <div class="floating-donor-icon">❤️</div>
+            <div>
+              <div class="floating-stat-title">Total Impact</div>
+              <div class="floating-stat-val">₹450+ Crores Raised</div>
+            </div>
+          </div>
+
+          <div class="floating-live-toast">
+            <div class="pulse-dot"></div>
+            <span>Rohan donated <strong>₹2,500</strong> for Baby Aarav</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS COUNTER BAR -->
+  <section class="stats-banner">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-num">₹450+ Cr</div>
+          <div class="stat-label">Raised for Medical Care & Causes</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">55+ Lakh</div>
+          <div class="stat-label">Generous Donors Across the World</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">85,000+</div>
+          <div class="stat-label">Lives Impacted & Fundraisers</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num">0%</div>
+          <div class="stat-label">Platform Fee for Maximum Aid</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- END MEMBER 1 -->
+  <!-- ====================================================================== -->
+
+
+  <!-- ======================================================================
+       ██ MEMBER 2: BROWSE FUNDRAISERS & CATEGORY DISCOVERY
+       Files: components/categories.html, components/campaigns.html
+       CSS:   css/campaigns.css
+       JS:    js/campaigns.js
+       ====================================================================== -->
+
+  <!-- CATEGORY SELECTOR PILLS -->
+  <section class="categories-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Browse by Cause</span>
+        <h2 class="section-title">Support a Cause You Care About</h2>
+        <p class="section-subtitle">Discover active campaigns verified by doctors, hospital networks, and community organizers.</p>
+      </div>
+
+      <div class="categories-carousel">
+        <button class="cat-pill active" data-category="all">
+          <span class="cat-emoji">🌟</span> All Causes
+        </button>
+        <button class="cat-pill" data-category="medical">
+          <span class="cat-emoji">🩺</span> Medical Emergencies
+        </button>
+        <button class="cat-pill" data-category="children">
+          <span class="cat-emoji">👶</span> Child Health & NICU
+        </button>
+        <button class="cat-pill" data-category="cancer">
+          <span class="cat-emoji">🎗️</span> Cancer Treatment
+        </button>
+        <button class="cat-pill" data-category="education">
+          <span class="cat-emoji">📚</span> Education Support
+        </button>
+        <button class="cat-pill" data-category="animals">
+          <span class="cat-emoji">🐾</span> Animal Welfare
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAMPAIGN CARDS GRID (EXPLORE & TRENDING) -->
+  <section class="campaigns-section" id="campaigns">
+    <div class="container">
+      <div class="campaigns-grid">
+
+        <!-- Card 1: NICU Baby -->
+        <div class="campaign-card" data-category="children">
+          <div class="card-media">
+            <img src="assets/images/campaign-nicu.png" alt="Baby Aarav in NICU">
+            <div class="card-badge-container">
+              <span class="badge badge-urgent">Critical ICU</span>
+              <span class="badge badge-tax">Tax Benefit 80G</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Help 4-Month-Old Baby Aarav Fight Severe Pneumonia & Respiratory Failure</h3>
+            <div class="card-organizer">
+              <span class="organizer-icon">👤</span> By Ramesh Sharma (Father)
+            </div>
+            <div class="card-progress-wrapper">
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 76%;"></div>
+              </div>
+              <div class="card-stats-row">
+                <div class="raised-col">
+                  <span class="raised-val">₹14,50,000</span>
+                  <span class="raised-goal">raised of ₹19,00,000</span>
+                </div>
+                <div class="card-meta-right">
+                  <div class="donors-count">1,420 Donors</div>
+                  <div class="days-left">3 Days Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer-actions">
+              <button class="btn-card-donate">Donate Now</button>
+              <button class="btn-card-share" title="Share Campaign">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2: Cancer Cure -->
+        <div class="campaign-card" data-category="cancer">
+          <div class="card-media">
+            <img src="assets/images/campaign-cancer.png" alt="Young boy cancer treatment">
+            <div class="card-badge-container">
+              <span class="badge badge-urgent">Urgent</span>
+              <span class="badge badge-verified">Hospital Verified</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">My 9-Year-Old Son Is Battling Acute Leukemia. Please Help Save Him</h3>
+            <div class="card-organizer">
+              <span class="organizer-icon">👤</span> By Priya Nair (Mother)
+            </div>
+            <div class="card-progress-wrapper">
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 62%;"></div>
+              </div>
+              <div class="card-stats-row">
+                <div class="raised-col">
+                  <span class="raised-val">₹18,60,000</span>
+                  <span class="raised-goal">raised of ₹30,00,000</span>
+                </div>
+                <div class="card-meta-right">
+                  <div class="donors-count">2,150 Donors</div>
+                  <div class="days-left">6 Days Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer-actions">
+              <button class="btn-card-donate">Donate Now</button>
+              <button class="btn-card-share" title="Share Campaign">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3: Education Support -->
+        <div class="campaign-card" data-category="education">
+          <div class="card-media">
+            <img src="assets/images/campaign-education.png" alt="Student Ananya">
+            <div class="card-badge-container">
+              <span class="badge badge-tax">80G Tax Exemption</span>
+              <span class="badge badge-verified">NGO Verified</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Help Rural Prodigy Ananya Complete Her Artificial Intelligence Degree</h3>
+            <div class="card-organizer">
+              <span class="organizer-icon">👤</span> By Vidya Education Trust
+            </div>
+            <div class="card-progress-wrapper">
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 88%;"></div>
+              </div>
+              <div class="card-stats-row">
+                <div class="raised-col">
+                  <span class="raised-val">₹3,52,000</span>
+                  <span class="raised-goal">raised of ₹4,00,000</span>
+                </div>
+                <div class="card-meta-right">
+                  <div class="donors-count">430 Donors</div>
+                  <div class="days-left">9 Days Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer-actions">
+              <button class="btn-card-donate">Donate Now</button>
+              <button class="btn-card-share" title="Share Campaign">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4: Animal Welfare -->
+        <div class="campaign-card" data-category="animals">
+          <div class="card-media">
+            <img src="assets/images/campaign-animal.png" alt="Rescued dog at shelter">
+            <div class="card-badge-container">
+              <span class="badge badge-tax">Tax Benefit 80G</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Emergency Medical Care & Shelter for 120+ Injured Street Animals</h3>
+            <div class="card-organizer">
+              <span class="organizer-icon">👤</span> By Paws & Claws Animal Trust
+            </div>
+            <div class="card-progress-wrapper">
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 48%;"></div>
+              </div>
+              <div class="card-stats-row">
+                <div class="raised-col">
+                  <span class="raised-val">₹2,40,000</span>
+                  <span class="raised-goal">raised of ₹5,00,000</span>
+                </div>
+                <div class="card-meta-right">
+                  <div class="donors-count">310 Donors</div>
+                  <div class="days-left">12 Days Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer-actions">
+              <button class="btn-card-donate">Donate Now</button>
+              <button class="btn-card-share" title="Share Campaign">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 5: Heart Surgery -->
+        <div class="campaign-card" data-category="medical">
+          <div class="card-media">
+            <img src="assets/images/hero-banner.png" alt="Heart surgery patient">
+            <div class="card-badge-container">
+              <span class="badge badge-urgent">Critical Surgery</span>
+              <span class="badge badge-tax">80G Benefit</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Urgent Open-Heart Surgery Needed for 6-Year-Old Kabir to Survive</h3>
+            <div class="card-organizer">
+              <span class="organizer-icon">👤</span> By Deepa Verma (Mother)
+            </div>
+            <div class="card-progress-wrapper">
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 82%;"></div>
+              </div>
+              <div class="card-stats-row">
+                <div class="raised-col">
+                  <span class="raised-val">₹9,84,000</span>
+                  <span class="raised-goal">raised of ₹12,00,000</span>
+                </div>
+                <div class="card-meta-right">
+                  <div class="donors-count">980 Donors</div>
+                  <div class="days-left">2 Days Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer-actions">
+              <button class="btn-card-donate">Donate Now</button>
+              <button class="btn-card-share" title="Share Campaign">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 6: Medical Treatment -->
+        <div class="campaign-card" data-category="medical">
+          <div class="card-media">
+            <img src="assets/images/campaign-cancer.png" alt="Emergency Medical Surgery">
+            <div class="card-badge-container">
+              <span class="badge badge-urgent">Closing Soon</span>
+              <span class="badge badge-verified">Verified</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <h3 class="card-title">Provide Emergency Kidney Transplant & Dialysis for 32-Year-Old Manoj</h3>
+            <div class="card-organizer">
+              <span class="organizer-icon">👤</span> By Sunita Devi (Wife)
+            </div>
+            <div class="card-progress-wrapper">
+              <div class="progress-track">
+                <div class="progress-fill" style="width: 91%;"></div>
+              </div>
+              <div class="card-stats-row">
+                <div class="raised-col">
+                  <span class="raised-val">₹22,75,000</span>
+                  <span class="raised-goal">raised of ₹25,00,000</span>
+                </div>
+                <div class="card-meta-right">
+                  <div class="donors-count">3,400 Donors</div>
+                  <div class="days-left">4 Days Left</div>
+                </div>
+              </div>
+            </div>
+            <div class="card-footer-actions">
+              <button class="btn-card-donate">Donate Now</button>
+              <button class="btn-card-share" title="Share Campaign">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.007c.106.005.249-.04.39.299.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.181-.076.355.101.174.449.741.964 1.2 1.014.903 1.637 1.182 1.868 1.297.231.116.368.101.505-.058.138-.159.593-.693.752-.931.159-.24.318-.201.535-.121.217.079 1.378.65 1.616.768.238.118.396.177.454.275.058.098.058.572-.086.977z"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="explore-more-wrap">
+        <button class="btn-hero-secondary open-start-modal">
+          <span>Explore All 2,500+ Active Campaigns</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- END MEMBER 2 -->
+  <!-- ====================================================================== -->
+
+
+  <!-- ======================================================================
+       ██ MEMBER 3: SOCIAL IMPACT PLAN (SIP) & HOW IT WORKS / TRUST / PARTNERS
+       Files: components/sip.html, components/how-it-works.html,
+              components/why-ketto.html, components/partners.html
+       CSS:   css/sip.css, css/how-it-works.css
+       JS:    js/sip.js
+       ====================================================================== -->
+
+  <!-- SOCIAL IMPACT PLAN (SIP) BANNER -->
+  <section class="sip-banner-section" id="sip-section">
+    <div class="container">
+      <div class="sip-grid">
+        <div class="sip-content">
+          <div class="sip-badge">
+            <span>✨ Ketto Social Impact Plan (SIP)</span>
+          </div>
+          <h2 class="sip-title">Give Every Month. Save Critical Lives Every Day.</h2>
+          <p class="sip-desc">
+            Join over 45,000+ monthly donors who contribute as little as ₹500/month to provide immediate medical funding for underprivileged patients in critical ICU emergencies.
+          </p>
+          <div class="sip-features">
+            <div class="sip-feat-item">
+              <span style="color:#fde047;">✔</span> 100% Verified Hospital Cases
+            </div>
+            <div class="sip-feat-item">
+              <span style="color:#fde047;">✔</span> Monthly Patient Impact Reports
+            </div>
+            <div class="sip-feat-item">
+              <span style="color:#fde047;">✔</span> 80G Tax Exemption Certificate
+            </div>
+            <div class="sip-feat-item">
+              <span style="color:#fde047;">✔</span> Cancel or Pause Anytime
+            </div>
+          </div>
+        </div>
+
+        <div class="sip-card-box">
+          <div class="sip-card-title">Select Monthly Giving Amount</div>
+          <div class="sip-card-sub">Tax benefit applicable on all monthly plans</div>
+          
+          <div class="sip-amount-presets">
+            <button class="sip-preset-btn active">₹500 /mo</button>
+            <button class="sip-preset-btn">₹1,000 /mo</button>
+            <button class="sip-preset-btn">₹2,500 /mo</button>
+          </div>
+
+          <button class="btn-sip-action open-donate-modal">Start Monthly Giving Plan</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS (3 SIMPLE STEPS) -->
+  <section class="how-it-works-section" id="how-it-works">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Simple & Fast</span>
+        <h2 class="section-title">Start a Fundraiser in 3 Simple Steps</h2>
+        <p class="section-subtitle">Ketto makes online crowdfunding transparent, effortless, and 100% free.</p>
+      </div>
+
+      <div class="steps-grid">
+        <!-- Step 1 -->
+        <div class="step-card">
+          <div class="step-number">01</div>
+          <div class="step-icon-wrap">📝</div>
+          <h3 class="step-title">Create Your Fundraiser</h3>
+          <p class="step-desc">
+            Fill out a simple 2-minute form with patient details, hospital estimate bills, and target goal amount. It's completely free to start.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+          <div class="step-number">02</div>
+          <div class="step-icon-wrap">📲</div>
+          <h3 class="step-title">Share with Community</h3>
+          <p class="step-desc">
+            Share your fundraiser link easily across WhatsApp, Instagram, Facebook, and email. Our experts help amplify your story to reach donors.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+          <div class="step-number">03</div>
+          <div class="step-icon-wrap">🏥</div>
+          <h3 class="step-title">Withdraw Funds Directly</h3>
+          <p class="step-desc">
+            Transfer the raised funds seamlessly to your hospital or personal bank account in less than 24 hours at 0% platform fee.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY KETTO / TRUST & SAFETY -->
+  <section class="why-ketto-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Trust & Assurance</span>
+        <h2 class="section-title">Why Ketto is India's #1 Crowdfunding Platform</h2>
+        <p class="section-subtitle">Built with highest medical ethics, security standards, and donor trust.</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-box">
+          <div class="feature-icon-circle">🏷️</div>
+          <h3 class="feature-heading">0% Platform Fee</h3>
+          <p class="feature-text">We do not charge any commission on donations. Every rupee raised goes toward patient recovery and noble causes.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-circle">🏥</div>
+          <h3 class="feature-heading">3-Tier Medical Verification</h3>
+          <p class="feature-text">Every medical campaign undergoes thorough review against hospital estimates, doctor notes, and identity checks.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-circle">🤝</div>
+          <h3 class="feature-heading">24/7 Dedicated Manager</h3>
+          <p class="feature-text">Get a personal campaign manager to assist you with storytelling, media preparation, and WhatsApp outreach.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-circle">⚡</div>
+          <h3 class="feature-heading">Instant Hospital Payouts</h3>
+          <p class="feature-text">Emergency medical situations cannot wait. We disburse funds directly to hospital billing desks in record time.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-circle">📜</div>
+          <h3 class="feature-heading">80G Tax Exemption</h3>
+          <p class="feature-text">Donors receive instant 80G tax exemption certificates on all eligible charity & medical relief campaigns.</p>
+        </div>
+
+        <div class="feature-box">
+          <div class="feature-icon-circle">💳</div>
+          <h3 class="feature-heading">All Payment Modes</h3>
+          <p class="feature-text">Seamless support for UPI (Google Pay, PhonePe, Paytm), NetBanking, Credit/Debit Cards, and International Donors.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOSPITAL PARTNERS STRIP -->
+  <section class="partners-section">
+    <div class="container">
+      <div class="partners-title">Trusted By Leading Hospital Networks Across India</div>
+      <div class="partners-logos">
+        <div class="partner-badge">🏥 Apollo Hospitals</div>
+        <div class="partner-badge">🏥 Fortis Healthcare</div>
+        <div class="partner-badge">🏥 Max Healthcare</div>
+        <div class="partner-badge">🏥 Manipal Hospitals</div>
+        <div class="partner-badge">🏥 Narayana Health</div>
+        <div class="partner-badge">🏥 Medanta Medicity</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================================== -->
+  <!-- END MEMBER 3 -->
+  <!-- ====================================================================== -->
+
+
+  <!-- ======================================================================
+       ██ MEMBER 4: FAQ ACCORDION, FOOTER & INTERACTIVE POPUPS (MODALS)
+       Files: components/faq.html, components/bottom-cta.html,
+              components/footer.html, components/modals.html
+       CSS:   css/faq.css, css/footer.css, css/modals.css
+       JS:    js/faq.js, js/modals.js
+       ====================================================================== -->
+
+  <!-- FAQ ACCORDION -->
+  <section class="faq-section">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-tag">Got Questions?</span>
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="section-subtitle">Everything you need to know about starting a campaign or donating on Ketto.</p>
+      </div>
+
+      <div class="faq-list">
+        <!-- Q1 -->
+        <div class="faq-item active">
+          <button class="faq-question">
+            <span>What is crowdfunding and how does Ketto work?</span>
+            <span class="faq-toggle-icon">▼</span>
+          </button>
+          <div class="faq-answer" style="max-height: 200px;">
+            Crowdfunding is a way to raise funds for medical treatment, education, or social causes by collecting small contributions from a large number of people online. On Ketto, you can create a campaign in 2 minutes, share it with family and friends, and withdraw the raised money directly to your hospital or bank account.
+          </div>
+        </div>
+
+        <!-- Q2 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Does Ketto really charge 0% platform fee?</span>
+            <span class="faq-toggle-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Yes! Ketto charges 0% platform fee on all fundraisers so that the maximum possible amount reaches the patient or cause. Only third-party payment gateway transaction charges apply.
+          </div>
+        </div>
+
+        <!-- Q3 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>How quickly can I withdraw funds for an urgent medical emergency?</span>
+            <span class="faq-toggle-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            You can request fund withdrawal at any time during your campaign. For verified medical emergencies, funds are transferred directly to the hospital's billing desk within 24 to 48 hours.
+          </div>
+        </div>
+
+        <!-- Q4 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>Are donations made on Ketto eligible for 80G tax benefits?</span>
+            <span class="faq-toggle-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            Yes, donations made to registered NGOs and eligible medical campaigns on Ketto qualify for tax deduction under Section 80G of the Indian Income Tax Act. You will receive an instant tax receipt upon successful payment.
+          </div>
+        </div>
+
+        <!-- Q5 -->
+        <div class="faq-item">
+          <button class="faq-question">
+            <span>What documents are required to start a medical fundraiser?</span>
+            <span class="faq-toggle-icon">▼</span>
+          </button>
+          <div class="faq-answer">
+            To verify a medical campaign, you will need: (1) Hospital estimate letter or medical discharge summary, (2) Doctor's diagnosis certificate, and (3) Patient & campaigner government photo ID (Aadhaar / PAN / Passport).
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- BOTTOM HIGH-CONVERSION CTA -->
+  <section class="bottom-cta-section">
+    <div class="container">
+      <h2 class="bottom-cta-title">Have a Medical Emergency or Cause?</h2>
+      <p class="bottom-cta-subtitle">
+        Do not let lack of funds compromise your loved one's treatment. Over 55 Lakh donors are ready to help. Start your campaign in 2 minutes with 0% platform fee.
+      </p>
+      <div class="bottom-cta-btns">
+        <button class="btn-cta-white open-start-modal">Start a Fundraiser for FREE</button>
+        <a href="tel:+919930088522" class="btn-cta-call">
+          <span>📞 Call Expert: +91 99300 88522</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-top-grid">
+        <!-- Brand Info -->
+        <div class="footer-brand">
+          <h3>ketto</h3>
+          <p>
+            Ketto is India's most trusted online crowdfunding platform for medical emergencies, cancer care, education, and social causes. Raising funds at 0% platform fee.
+          </p>
+          <div class="social-icons-row">
+            <a href="https://facebook.com" target="_blank" class="social-icon" aria-label="Facebook">f</a>
+            <a href="https://twitter.com" target="_blank" class="social-icon" aria-label="Twitter">𝕏</a>
+            <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram">ig</a>
+            <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn">in</a>
+            <a href="https://youtube.com" target="_blank" class="social-icon" aria-label="YouTube">yt</a>
+          </div>
+        </div>
+
+        <!-- Causes -->
+        <div class="footer-col">
+          <h4>Causes</h4>
+          <ul class="footer-links">
+            <li><a href="#campaigns">Medical Crowdfunding</a></li>
+            <li><a href="#campaigns">Cancer Treatment</a></li>
+            <li><a href="#campaigns">Child Healthcare</a></li>
+            <li><a href="#campaigns">Education Support</a></li>
+            <li><a href="#campaigns">Animal Welfare</a></li>
+            <li><a href="#campaigns">NGO Fundraising</a></li>
+          </ul>
+        </div>
+
+        <!-- How It Works -->
+        <div class="footer-col">
+          <h4>How It Works</h4>
+          <ul class="footer-links">
+            <li><a href="#how-it-works">For Individuals</a></li>
+            <li><a href="#how-it-works">For NGOs & Charities</a></li>
+            <li><a href="#how-it-works">For Corporates & CSR</a></li>
+            <li><a href="#sip-section">Social Impact Plan (SIP)</a></li>
+            <li><a href="#how-it-works">Fundraising Tips</a></li>
+          </ul>
+        </div>
+
+        <!-- About Us -->
+        <div class="footer-col">
+          <h4>About Us</h4>
+          <ul class="footer-links">
+            <li><a href="#">Team Ketto</a></li>
+            <li><a href="#">Hospital Partners</a></li>
+            <li><a href="#">Careers</a></li>
+            <li><a href="#">Press Club</a></li>
+            <li><a href="#">Impact Stories</a></li>
+          </ul>
+        </div>
+
+        <!-- Support & Trust -->
+        <div class="footer-col">
+          <h4>Support & Safety</h4>
+          <ul class="footer-links">
+            <li><a href="tel:+919930088522">24/7 Helpline Support</a></li>
+            <li><a href="#">Trust & Safety Policy</a></li>
+            <li><a href="#">80G Tax Exemption Guide</a></li>
+            <li><a href="#">Privacy Policy</a></li>
+            <li><a href="#">Terms of Use</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-divider"></div>
+
+      <div class="footer-bottom-row">
+        <div>
+          © 2026 Ketto Online Ventures. All rights reserved. | 256-Bit SSL Encrypted & Secure
+        </div>
+        <div class="payment-badges-row">
+          <span class="pay-badge">UPI</span>
+          <span class="pay-badge">Google Pay</span>
+          <span class="pay-badge">PhonePe</span>
+          <span class="pay-badge">Paytm</span>
+          <span class="pay-badge">Visa / Master</span>
+          <span class="pay-badge">NetBanking</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL 1: QUICK DONATE (FRONTEND DEMO) -->
+  <div class="modal-overlay" id="donateModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <h3 class="modal-title">Make a Contribution</h3>
+      <p class="modal-subtitle">Choose an amount to support this verified medical fundraiser.</p>
+
+      <div class="donate-presets-grid">
+        <button class="donate-preset-btn" data-amount="500">₹500</button>
+        <button class="donate-preset-btn active" data-amount="1000">₹1,000</button>
+        <button class="donate-preset-btn" data-amount="2500">₹2,500</button>
+        <button class="donate-preset-btn" data-amount="5000">₹5,000</button>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Enter Custom Amount (₹)</label>
+        <input type="number" class="custom-amount-input" value="1000" placeholder="e.g. 1000">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Your Full Name</label>
+        <input type="text" class="form-input donor-name-input" placeholder="e.g. Rahul Sharma" value="Rahul Sharma">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address (for 80G Tax Receipt)</label>
+        <input type="email" class="form-input donor-email-input" placeholder="rahul@example.com" value="rahul@example.com">
+      </div>
+
+      <div class="tax-check-row">
+        <input type="checkbox" id="tax80g" checked>
+        <label for="tax80g">I want an 80G Tax Exemption Certificate</label>
+      </div>
+
+      <button class="btn-primary-cta" id="donateSubmitBtn" style="width: 100%; padding: 14px; font-size: 1rem;">
+        Proceed to Pay (Simulated)
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL 2: START FUNDRAISER (FRONTEND DEMO) -->
+  <div class="modal-overlay" id="startModal">
+    <div class="modal-box">
+      <button class="modal-close-btn" aria-label="Close modal">✕</button>
+      <h3 class="modal-title">Start a Fundraiser with 0% Fee</h3>
+      <p class="modal-subtitle">Raise money for medical bills, education, or social causes in 2 minutes.</p>
+
+      <div class="form-group">
+        <label class="form-label">Who are you raising funds for?</label>
+        <select class="form-input">
+          <option>Myself / Immediate Family</option>
+          <option>A Friend / Colleague</option>
+          <option>Registered NGO / Charity</option>
+          <option>Animal Welfare / Rescue</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Fundraising Cause</label>
+        <select class="form-input">
+          <option>Medical Emergency / Surgery</option>
+          <option>Cancer Treatment</option>
+          <option>Child Health & NICU</option>
+          <option>Education Aid</option>
+          <option>Animal Shelter</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Target Goal Amount (₹)</label>
+        <input type="number" class="form-input" placeholder="e.g. 500000" value="500000">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Your Mobile Number (For WhatsApp Updates)</label>
+        <input type="tel" class="form-input" placeholder="+91 98765 43210" value="+91 98765 43210">
+      </div>
+
+      <button class="btn-primary-cta" id="startSubmitBtn" style="width: 100%; padding: 14px; font-size: 1rem; margin-top: 10px;">
+        Submit & Talk to Campaign Expert
+      </button>
+    </div>
+  </div>
+
+  <!-- ====================================================================== -->
+  <!-- END MEMBER 4 -->
+  <!-- ====================================================================== -->
+
+
+  <!-- ======================================================================
+       MODULAR SCRIPTS
+       Each script registers its init function on window, then main.js
+       calls them all on DOMContentLoaded.
+       ====================================================================== -->
+  <script src="js/header.js"></script>
+  <script src="js/campaigns.js"></script>
+  <script src="js/sip.js"></script>
+  <script src="js/faq.js"></script>
+  <script src="js/modals.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>
