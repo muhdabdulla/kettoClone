@@ -1,0 +1,14 @@
+{
+  "name": "ketto-clone",
+  "version": "1.0.0",
+  "description": "Ketto Crowdfunding Website Full-Stack Clone",
+  "main": "server/server.js",
+  "scripts": {
+    "start": "node server/server.js",
+    "dev": "node --watch server/server.js",
+    "seed": "node server/scripts/seed.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
