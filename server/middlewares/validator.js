@@ -31,7 +31,7 @@ const validateCampaign = (req, res, next) => {
   }
 
   if (category) {
-    const validCategories = ["children", "cancer", "education", "animals", "medical", "others"];
+    const validCategories = ["children", "cancer", "education", "animals", "medical", "others", "other"];
     if (!validCategories.includes(category.toLowerCase())) {
       return res.status(400).json({
         success: false,

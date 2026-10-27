@@ -16,7 +16,7 @@ function sanitizeMongoUri(rawUri) {
   if (!rawUri) return "";
   let uri = rawUri.trim();
 
-  // If user pasted with angle brackets around password: e.g. :<password>@
+  // If user pasted with angle brackets around password: 
   uri = uri.replace(/:<([^>]+)>@/, (match, pwd) => {
     return `:${encodeURIComponent(pwd)}@`;
   });
@@ -24,7 +24,10 @@ function sanitizeMongoUri(rawUri) {
   return uri;
 }
 
-const connectDB = async () => {
+const RECONNECT_DELAY_MS = 5000;
+let reconnecting = false;
+
+async function connectDB(isReconnect = false) {
   const rawUri = process.env.MONGO_URI;
 
   if (!rawUri) {
@@ -36,25 +39,44 @@ const connectDB = async () => {
 
   try {
     const conn = await mongoose.connect(cleanUri, {
-      serverSelectionTimeoutMS: 5000
+      serverSelectionTimeoutMS: 8000,
+      socketTimeoutMS: 45000,
+      connectTimeoutMS: 10000,
+      heartbeatFrequencyMS: 10000,
+      maxPoolSize: 5,
+      minPoolSize: 1,
+      retryWrites: true,
+      retryReads: true
     });
-    console.log(`✅ MongoDB Atlas Connected: ${conn.connection.host}`);
-    console.log(`📦 Database: ${conn.connection.name}`);
+    reconnecting = false;
+    if (isReconnect) {
+      console.log(`✅ MongoDB Atlas Re-connected: ${conn.connection.host}`);
+    } else {
+      console.log(`✅ MongoDB Atlas Connected: ${conn.connection.host}`);
+      console.log(`📦 Database: ${conn.connection.name}`);
+    }
   } catch (error) {
     console.warn(`⚠️ MongoDB Atlas Connection Note: ${error.message}`);
-    console.log(`💡 TIP for College Presentation:`);
-    console.log(`   If using MongoDB Atlas, make sure Network Access allows: 0.0.0.0/0`);
-    console.log(`   (Atlas Dashboard -> Network Access -> Add IP -> Allow Access From Anywhere).`);
-    console.log(`   The server is running with active memory-fallback so all APIs work smoothly!`);
+    if (!isReconnect) {
+      console.log(`💡 TIP for College Presentation:`);
+      console.log(`   If using MongoDB Atlas, make sure Network Access allows: 0.0.0.0/0`);
+      console.log(`   (Atlas Dashboard -> Network Access -> Add IP -> Allow Access From Anywhere).`);
+      console.log(`   The server is running with active memory-fallback so all APIs work smoothly!`);
+    }
   }
-};
+}
 
 mongoose.connection.on("disconnected", () => {
-  console.log("ℹ️ MongoDB Atlas disconnected.");
+  console.log("ℹ️ MongoDB Atlas disconnected. Will attempt reconnect in 5s...");
+  if (!reconnecting) {
+    reconnecting = true;
+    setTimeout(() => connectDB(true), RECONNECT_DELAY_MS);
+  }
 });
 
 mongoose.connection.on("error", (err) => {
-  console.warn("⚠️ MongoDB connection error:", err.message);
+  // Log but do NOT crash — Atlas can send stream errors on idle connections
+  console.warn("⚠️ MongoDB connection error (non-fatal):", err.message);
 });
 
 module.exports = connectDB;

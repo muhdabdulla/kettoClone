@@ -1,3 +1,18 @@
+const dns = require("dns");
+try {
+  dns.setServers(["8.8.8.8", "8.8.4.4"]);
+} catch (e) {}
+
+// ── Global safety nets ────────────────────────────────────────────────────────
+// Prevents a single unhandled Atlas TCP stream error from crashing the server
+process.on("uncaughtException", (err) => {
+  console.error("⚠️ Uncaught Exception (non-fatal, server keeps running):", err.message);
+});
+process.on("unhandledRejection", (reason) => {
+  console.error("⚠️ Unhandled Promise Rejection (non-fatal):", reason?.message || reason);
+});
+// ─────────────────────────────────────────────────────────────────────────────
+
 const express = require("express");
 const cors = require("cors");
 const dotenv = require("dotenv");
@@ -23,11 +38,11 @@ const app = express();
 // 1. Enable Cross-Origin Resource Sharing (CORS) for frontend
 app.use(cors());
 
-// 2. Body Parser for JSON payloads
-app.use(express.json());
+// 2. Body Parser for JSON payloads (supports base64 image uploads up to 10MB)
+app.use(express.json({ limit: "10mb" }));
 
 // 3. Body Parser for URL-encoded forms
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 // 4. Custom Request Logger
 app.use(requestLogger);

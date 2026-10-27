@@ -11,7 +11,12 @@ exports.getCampaigns = async (req, res, next) => {
     let query = { status: "active" };
 
     if (category && category !== "all") {
-      query.category = category.toLowerCase();
+      const catLower = category.toLowerCase();
+      if (catLower === "other" || catLower === "others") {
+        query.category = { $in: ["other", "others"] };
+      } else {
+        query.category = catLower;
+      }
     }
 
     if (search && search.trim() !== "") {
@@ -19,7 +24,7 @@ exports.getCampaigns = async (req, res, next) => {
       query.$or = [{ title: searchRegex }, { organizer: searchRegex }];
     }
 
-    const campaigns = await Campaign.find(query).sort({ createdAt: -1 });
+    const campaigns = await Campaign.find(query).sort({ daysLeft: 1, createdAt: -1 });
 
     res.status(200).json({
       success: true,

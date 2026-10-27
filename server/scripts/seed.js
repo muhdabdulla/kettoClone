@@ -12,16 +12,22 @@ const User = require("../models/User");
 const Donation = require("../models/Donation");
 const sampleCampaigns = require("../data/initialCampaigns");
 
+const bcrypt = require("bcryptjs");
+
 const sampleUsers = [
   {
     name: "Rahul Sharma",
+    username: "rahul_sharma",
     email: "rahul.sharma@example.com",
+    password: bcrypt.hashSync("Password@123", 10),
     phone: "+91 98765 43210",
     role: "donor"
   },
   {
     name: "Priya Nair",
+    username: "priya_nair",
     email: "priya.nair@example.com",
+    password: bcrypt.hashSync("Password@123", 10),
     phone: "+91 98111 22334",
     role: "organizer"
   }

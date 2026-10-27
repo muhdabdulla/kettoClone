@@ -16,7 +16,7 @@ const campaignSchema = new mongoose.Schema(
     category: {
       type: String,
       required: [true, "Category is required"],
-      enum: ["children", "cancer", "education", "animals", "medical", "others"],
+      enum: ["children", "cancer", "education", "animals", "medical", "others", "other"],
       default: "medical",
       lowercase: true,
       trim: true

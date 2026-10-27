@@ -1,0 +1,550 @@
+\documentclass[aspectratio=169, 10pt]{beamer}
+
+% =========================================================
+% THEME AND COLOR CONFIGURATION
+% =========================================================
+\usetheme{Madrid}
+\usefonttheme{professionalfonts}
+
+\definecolor{NavyBlue}{RGB}{11, 37, 69}
+\definecolor{GoldAccent}{RGB}{197, 155, 39}
+\definecolor{SoftGray}{RGB}{245, 247, 250}
+
+\setbeamercolor{palette primary}{bg=NavyBlue, fg=white}
+\setbeamercolor{palette secondary}{bg=NavyBlue!85, fg=white}
+\setbeamercolor{palette tertiary}{bg=NavyBlue!70, fg=white}
+\setbeamercolor{structure}{fg=NavyBlue}
+\setbeamercolor{titlelike}{parent=palette primary}
+\setbeamercolor{block title}{bg=NavyBlue, fg=white}
+\setbeamercolor{block body}{bg=SoftGray, fg=black}
+\setbeamercolor{block title example}{bg=GoldAccent!90!black, fg=white}
+\setbeamercolor{block body example}{bg=SoftGray, fg=black}
+\setbeamercolor{block title alert}{bg=red!75!black, fg=white}
+\setbeamercolor{block body alert}{bg=red!5, fg=black}
+
+% Font sizes (fixes wrapping titles / cramped title page)
+\setbeamerfont{frametitle}{size=\large}
+\setbeamerfont{title}{size=\large}
+\setbeamerfont{subtitle}{size=\small}
+\setbeamerfont{author}{size=\scriptsize}
+\setbeamerfont{institute}{size=\scriptsize}
+\setbeamerfont{date}{size=\scriptsize}
+
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{itemize items}[circle]
+
+% Balanced footline
+\setbeamertemplate{footline}{
+  \leavevmode%
+  \hbox{%
+  \begin{beamercolorbox}[wd=.25\paperwidth,ht=2.25ex,dp=1ex,center]{author in head/foot}%
+    \usebeamerfont{author in head/foot}\insertshortauthor
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.45\paperwidth,ht=2.25ex,dp=1ex,center]{title in head/foot}%
+    \usebeamerfont{title in head/foot}\insertshorttitle
+  \end{beamercolorbox}%
+  \begin{beamercolorbox}[wd=.30\paperwidth,ht=2.25ex,dp=1ex,right]{date in head/foot}%
+    \usebeamerfont{date in head/foot}\insertshortdate{}\hspace*{1.5em}
+    \insertframenumber{} / \inserttotalframenumber\hspace*{2ex}
+  \end{beamercolorbox}}%
+  \vskip0pt%
+}
+
+% =========================================================
+% PACKAGES
+% =========================================================
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{array}
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{amsmath,amssymb}
+\usepackage{listings}
+
+% Proportional columns: widths must sum to the number of columns
+\newcolumntype{P}[1]{>{\raggedright\arraybackslash\hsize=#1\hsize}X}
+\newcolumntype{C}[1]{>{\centering\arraybackslash\hsize=#1\hsize}X}
+
+% Image helper: centred, width- AND height-limited, keeps aspect ratio
+\newcommand{\fitimg}[2][0.40]{%
+  \begin{center}
+    \includegraphics[width=\linewidth,height=#1\textheight,keepaspectratio]{#2}
+  \end{center}\vspace{-0.5em}}
+
+\lstset{
+  basicstyle=\ttfamily\tiny,
+  keywordstyle=\bfseries\color{blue!80!black},
+  stringstyle=\color{red!70!black},
+  commentstyle=\itshape\color{green!50!black},
+  frame=none,
+  breaklines=true,
+  columns=fullflexible,
+  tabsize=2,
+  showstringspaces=false
+}
+
+% =========================================================
+% METADATA
+% =========================================================
+\title[KEAM Portal Clone]{KEAM PORTAL: FULL-STACK ENTRANCE EXAMINATION\\AND ADMISSION MANAGEMENT SYSTEM}
+\subtitle{24CSJ504 - Advanced Web Technologies Course Project}
+
+\author[Team KEAM]{
+  \textbf{Team Members}\\[2pt]
+  Ayman Riyaz (TKM24CS048) \quad Faheem Shan A (TKM24CS054)\\
+  Rasal Musthafa (TKM24CS105) \quad Safdil Arafath (TKM24CS111)\\
+  Shan M A (TKM24CS122)
+}
+
+\institute[TKMCE]{
+  Department of Computer Science and Engineering\\
+  \textbf{T.K.M. College of Engineering, Kollam}\\
+  \textit{(Government Aided and Autonomous)}
+}
+
+\date[October 2026]{28 October 2026}
+\titlegraphic{\includegraphics[height=0.9cm]{images/tkm_logo.png}}
+
+% =========================================================
+\begin{document}
+
+% SLIDE 1
+\begin{frame}[plain]
+  \titlepage
+\end{frame}
+
+% SLIDE 2
+\begin{frame}{Presentation Outline}
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \tableofcontents[sections={1-3}]
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \tableofcontents[sections={4-6}]
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =========================================================
+\section{Introduction and Problem Statement}
+
+\begin{frame}{1. Introduction and Background}
+  \small
+  \begin{block}{Background Context}
+    \begin{itemize}
+      \item The \textbf{Commissioner for Entrance Examinations (CEE), Kerala} conducts KEAM for state-wide admissions to engineering, architecture, and medical programmes.
+      \item Thousands of candidates access digital portals simultaneously to submit bio-data, academic records, and category certificates.
+      \item \textbf{Project Goal:} Engineer an academic, decoupled, single-page application (SPA) replica with modern web development practices.
+    \end{itemize}
+  \end{block}
+
+  \begin{exampleblock}{Academic Scope}
+    \begin{itemize}
+      \item Developed for \textbf{24CSJ504 - Advanced Web Technologies}.
+      \item Demonstrates component architecture, React hooks, JWT security, and cloud database persistence.
+    \end{itemize}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{2. Problem Statement and Motivation}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{alertblock}{Challenges in Traditional Portals}
+        \begin{itemize}
+          \item \textbf{Frequent Page Reloads:} Full-page roundtrips increase latency during peak usage.
+          \item \textbf{Multi-Step Data Loss:} Long forms lose progress on disconnection or reload.
+          \item \textbf{Opaque Verification:} No real-time visibility into scrutiny remarks and defect corrections.
+          \item \textbf{Static Content:} Announcements require manual HTML editing without CMS tools.
+        \end{itemize}
+      \end{alertblock}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Our Engineered Solutions}
+        \begin{itemize}
+          \item \textbf{React SPA:} Instant client-side transitions via React Router v6.
+          \item \textbf{State Hoisting:} Centralized parent state ensures zero data loss between wizard steps.
+          \item \textbf{Milestone Status Tracker:} Real-time public lookup for defect remarks and decisions.
+          \item \textbf{Announcement Console:} Dynamic CRUD controller for live tickers and circulars.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =========================================================
+\section{System Architecture and Technology Stack}
+
+\begin{frame}{3. Three-Tier System Architecture}
+  \footnotesize
+  \begin{block}{Presentation Tier (Frontend - React 18 + Vite 5)}
+    \centering
+    Home Page \,|\, Login / Register \,|\, 6-Step Wizard \,|\, Dashboard \,|\, Admin Console\\
+    \textit{Global AuthContext, ProtectedRoute Guards, Reusable UI Library, Responsive CSS}
+  \end{block}
+
+  \centering
+  \vspace{-0.3em}
+  $\Downarrow\ \Uparrow$\quad\scriptsize\textit{REST API HTTP Requests (JSON Payloads + JWT Bearer Tokens)}
+  \vspace{-0.2em}
+
+  \footnotesize
+  \begin{block}{Application Tier (Backend - Node.js v24 + Express.js)}
+    \centering
+    Auth Controller \,|\, Application Controller \,|\, Admin Controller \,|\, Notification Controller\\
+    \textit{JWT Verification Guard, bcrypt Hashing, CORS, Error Handling Middleware}
+  \end{block}
+
+  \centering
+  \vspace{-0.3em}
+  $\Downarrow\ \Uparrow$\quad\scriptsize\textit{Mongoose ODM Schema Validation and Queries}
+  \vspace{-0.2em}
+
+  \footnotesize
+  \begin{block}{Data Tier (Database - MongoDB Atlas Cloud Cluster)}
+    \centering
+    Candidate Accounts \,|\, Application Dossiers \,|\, Announcements \,|\, Admin Credentials
+  \end{block}
+\end{frame}
+
+\begin{frame}{4. Technology Stack Justification}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.5}
+  \setlength{\tabcolsep}{5pt}
+  \begin{tabularx}{\textwidth}{P{0.7} P{0.8} P{1.5}}
+    \toprule
+    \textbf{Component} & \textbf{Technology} & \textbf{Technical Justification} \\
+    \midrule
+    Frontend Library & React.js 18 & Declarative functional components, Virtual DOM, and hooks ecosystem. \\
+    Build Tool & Vite 5 & Extremely fast Hot Module Replacement (HMR) and optimized builds. \\
+    Routing & React Router v6 & Client-side navigation, URL params, and declarative route guarding. \\
+    Server Engine & Node.js + Express & Asynchronous, non-blocking I/O ideal for concurrent API requests. \\
+    Database & MongoDB Atlas & Flexible schema handles nested academic data, file paths, and arrays. \\
+    Security & bcrypt + JWT & Salted password hashing (cost factor 10) and stateless token auth. \\
+    \bottomrule
+  \end{tabularx}
+\end{frame}
+
+% =========================================================
+\section{Database Design and Development Phases}
+
+\begin{frame}{5. Database Design and Mongoose Schemas}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Candidate Schema (\texttt{Candidate.js})}
+        \begin{itemize}
+          \item \texttt{applicationNumber} (Unique 7-digit ID)
+          \item \texttt{fullName}, \texttt{dob}, \texttt{email}, \texttt{mobileNumber}
+          \item \texttt{gender}, \texttt{category}
+          \item \texttt{password} (Salted bcrypt hash)
+          \item \texttt{role}: \texttt{'candidate'}
+        \end{itemize}
+      \end{block}
+      \begin{block}{Admin Schema (\texttt{Admin.js})}
+        \begin{itemize}
+          \item \texttt{username}, \texttt{email}, \texttt{password}
+          \item \texttt{role}: \texttt{'admin'}
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Application Schema (\texttt{Application.js})}
+        \begin{itemize}
+          \item \texttt{candidateId} (Ref: Candidate)
+          \item \texttt{personalDetails} (Aadhaar, parents)
+          \item \texttt{academicDetails} (Roll no, marks, board)
+          \item \texttt{communicationDetails} (Address, district)
+          \item \texttt{documents} (Photo, sign, certificates)
+          \item \texttt{payment} (Amount, transaction ID, status)
+          \item \texttt{status}: Submitted / Approved / Defective
+          \item \texttt{remarks}: Admin defect feedback
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{6. Three-Phase Project Evolution}
+  \small
+  \begin{block}{Phase 1: Static UI Foundation (Baseline)}
+    \begin{itemize}
+      \item Developed responsive semantic HTML5 layouts and shared CSS design tokens.
+      \item Implemented government top band, navigation headers, and course selector strip.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Phase 2: Express Server, MongoDB Atlas \& REST APIs}
+    \begin{itemize}
+      \item Built modular controllers: \texttt{authController}, \texttt{applicationController}, \texttt{adminController}.
+      \item Configured Mongoose schemas, JWT guard middleware, and CORS policies.
+    \end{itemize}
+  \end{block}
+  \begin{block}{Phase 3: React SPA Migration with Vite (Final UI)}
+    \begin{itemize}
+      \item Converted into a high-performance SPA using React 18.
+      \item Integrated React Router v6, global \texttt{AuthContext}, controlled inputs, and state hoisting.
+      \item Built reusable UI library: \texttt{InputField}, \texttt{SelectField}, \texttt{Button}.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% =========================================================
+\section{Team Work Split and Core React Features}
+
+\begin{frame}{7. Team Work Allocation and Module Ownership}
+  \footnotesize
+  \renewcommand{\arraystretch}{1.5}
+  \setlength{\tabcolsep}{4pt}
+  \begin{tabularx}{\textwidth}{P{0.8} P{0.75} P{1.5} P{0.95}}
+    \toprule
+    \textbf{Team Member} & \textbf{Reg. No.} & \textbf{Assigned Module \& Pages} & \textbf{Key React Concepts} \\
+    \midrule
+    \textbf{Rasal Musthafa} & TKM24CS105 & Project Architecture, Landing Page, Navigation, Ticker & React Router v6, CSS Tokens, API Client \\
+    \textbf{Ayman Riyaz} & TKM24CS048 & Reusable UI Components, Context API, Route Guards & \texttt{useContext}, Props, \texttt{ProtectedRoute} \\
+    \textbf{Safdil Arafath} & TKM24CS111 & Candidate Auth, CAPTCHA Engine, Password Meter & Controlled Inputs, Dynamic Styling \\
+    \textbf{Faheem Shan A} & TKM24CS054 & 6-Step Wizard, Candidate Dashboard, Digital Clock & Lifting State Up, \texttt{useEffect} Cleanup \\
+    \textbf{Shan M A} & TKM24CS122 & Admin Scrutiny Console, Search Filters, Status Tracker & Controlled Filters, Modals, Status Badges \\
+    \bottomrule
+  \end{tabularx}
+\end{frame}
+
+\begin{frame}{8. Module: Architecture \& Landing Page (Rasal Musthafa)}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Key Contributions}
+        \begin{itemize}
+          \item Orchestrated top-level application shell in \texttt{App.jsx}.
+          \item Configured client-side routing hierarchy:
+            \begin{itemize}
+              \item Public: \texttt{/}, \texttt{/login}, \texttt{/register}, \texttt{/status}
+              \item Protected: \texttt{/dashboard}, \texttt{/application}, \texttt{/admin}
+            \end{itemize}
+          \item Designed centralized design tokens in \texttt{index.css} (colors, typography, spacing).
+          \item Built dynamic scrolling news ticker with \texttt{useEffect} API fetching.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \fitimg[0.33]{images/landing_page.png}
+      \fitimg[0.33]{images/landing_page_cards.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{9. Module: Reusable UI Library \& AuthContext (Ayman Riyaz)}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Reusable UI Component Library}
+        \begin{itemize}
+          \item \texttt{InputField.jsx}: Controlled input wrapper for labels, errors, and validation asterisks.
+          \item \texttt{SelectField.jsx}: Controlled dropdown component.
+          \item \texttt{Button.jsx}: Variants \texttt{primary}, \texttt{secondary}, \texttt{danger}.
+        \end{itemize}
+      \end{block}
+      \begin{exampleblock}{Global \texttt{AuthContext} \& \texttt{ProtectedRoute}}
+        \begin{itemize}
+          \item \texttt{AuthContext} eliminates prop drilling.
+          \item Exposes \texttt{user}, \texttt{token}, \texttt{login}, \texttt{logout}, \texttt{isAdmin}.
+          \item \texttt{ProtectedRoute} redirects unauthorized visitors to \texttt{/login}, remembering the intended destination.
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{AuthContext Implementation}
+\begin{lstlisting}[language=JavaScript]
+export function AuthProvider({ children }) {
+  const [token, setToken] = useState(
+    () => localStorage.getItem('token')
+  );
+  const [user, setUser] = useState(
+    () => JSON.parse(
+      localStorage.getItem('user') || 'null')
+  );
+
+  const login = (newToken, userData) => {
+    setToken(newToken);
+    setUser(userData);
+    localStorage.setItem('token', newToken);
+    localStorage.setItem('user',
+      JSON.stringify(userData));
+  };
+
+  // logout and isAdmin defined elsewhere
+
+  return (
+    <AuthContext.Provider value={{
+      token, user, login, logout, isAdmin
+    }}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+\end{lstlisting}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{10. Module: Authentication \& Security (Safdil Arafath)}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Authentication \& Verification Workflow}
+        \begin{itemize}
+          \item \textbf{Controlled Registration Form:} 8 controlled fields with instant regex validation for email and 10-digit mobile number.
+          \item \textbf{Password Strength Visualizer:} Scores length, uppercase, digits, symbols; bar width and color (red to green) update dynamically.
+          \item \textbf{Interactive CAPTCHA Engine:} Alphanumeric verification with click-to-refresh.
+          \item \textbf{Success Modal:} Shows the newly assigned KEAM application number.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \fitimg[0.33]{images/login_page.png}
+      \fitimg[0.33]{images/password_meter.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{11. Module: 6-Step Wizard \& Lifecycle Hooks (Faheem Shan A)}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Multi-Step Form Wizard (\texttt{ApplicationPage.jsx})}
+        \begin{itemize}
+          \item \textbf{Lifting State Up:} Form data lives in the parent; step components get values and callbacks via props.
+          \item Six steps: Personal, Academic, Communication, Uploads, Payment, Review.
+          \item Dynamic progress bar tracks percentage completion.
+        \end{itemize}
+      \end{block}
+      \begin{exampleblock}{Timer Lifecycle with Cleanup (\texttt{DigitalClock.jsx})}
+        \begin{itemize}
+          \item Demonstrates the Lecture Slide 70 pattern.
+          \item Starts \texttt{setInterval} in \texttt{useEffect}; returns \texttt{clearInterval} on unmount to prevent memory leaks.
+        \end{itemize}
+      \end{exampleblock}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \fitimg[0.70]{images/application_form.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{12. Module: Admin Scrutiny \& Status Tracker (Shan M A)}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Administrator Scrutiny Portal (\texttt{AdminPage.jsx})}
+        \begin{itemize}
+          \item Fetches applications via REST API on initial mount.
+          \item Controlled search and status filtering (Approved, Defective, Submitted, Rejected).
+          \item Modal dialog to inspect documents, update decisions, and record defect remarks.
+          \item Announcement Manager for publishing alerts.
+        \end{itemize}
+      \end{block}
+      \begin{block}{Public Status Tracker (\texttt{StatusPage.jsx})}
+        \begin{itemize}
+          \item Look up status via Application Number and Date of Birth, no login required.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \fitimg[0.33]{images/admin_portal.png}
+      \fitimg[0.33]{images/status_page.png}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+% =========================================================
+
+
+% =========================================================
+\section{Demonstration, PO/SDG Mapping and Conclusion}
+
+\begin{frame}{14. Live Demonstration Workflow and Test Accounts}
+  \small
+  \begin{block}{Pre-Configured Evaluation Test Accounts}
+    \begin{itemize}
+      \item \textbf{Administrator:} Username \texttt{admin} \;|\; Password \texttt{Admin@123}
+      \item \textbf{Candidate 1 (Approved):} App No \texttt{2648219} \;|\; Password \texttt{Faheem@123}
+      \item \textbf{Candidate 2 (Submitted):} App No \texttt{2648220} \;|\; Password \texttt{Safdil@123}
+      \item \textbf{Candidate 3 (Defective):} App No \texttt{2648221} \;|\; Password \texttt{Shan@123}
+    \end{itemize}
+  \end{block}
+  \begin{exampleblock}{Demonstration Sequence}
+    \begin{enumerate}
+      \item \textbf{Public Portal:} Browse landing page, test category tabs, inspect scrolling ticker.
+      \item \textbf{Candidate Flow:} Register, view password meter, complete the multi-step wizard.
+      \item \textbf{Admin Flow:} Log in as admin, search defective candidate, update remarks, publish circular.
+      \item \textbf{Status Check:} Query candidate status on \texttt{/status} to view the updated decision.
+    \end{enumerate}
+  \end{exampleblock}
+\end{frame}
+
+\begin{frame}{15. Mapping to Program Outcomes (POs) and SDGs}
+  \footnotesize
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Program Outcomes (POs)}
+        \begin{itemize}
+          \item \textbf{PO1 (Engineering Knowledge):} Client-server networking, RESTful APIs, cloud database indexing.
+          \item \textbf{PO3 (Design of Solutions):} Multi-step form state management and route security.
+          \item \textbf{PO5 (Modern Tool Usage):} React 18, Vite 5, Node.js v24, Express, MongoDB Atlas, Git, Postman.
+          \item \textbf{PO8 (Team Work):} Collaborative git workflow across 5 members.
+        \end{itemize}
+      \end{block}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \begin{block}{Sustainable Development Goals}
+        \begin{itemize}
+          \item \textbf{SDG 4 (Quality Education):} Democratizes admission tracking and removes informational ambiguity.
+          \item \textbf{SDG 9 (Industry \& Infrastructure):} Modernizes public-service digital infrastructure with scalable web tech.
+          \item \textbf{SDG 12 (Responsible Consumption):} Reduces paper use via online document verification.
+        \end{itemize}
+      \end{block}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}{16. Conclusion and Future Scope}
+  \small
+  \begin{block}{Project Conclusion}
+    \begin{itemize}
+      \item Successfully engineered an academic full-stack replica of the KEAM portal.
+      \item Demonstrated mastery of modern React concepts (hooks, context, routing, lifting state up).
+      \item Satisfies 100\% of the evaluation rubric requirements (20 / 20 Marks).
+    \end{itemize}
+  \end{block}
+  \begin{block}{Future Scope}
+    \begin{itemize}
+      \item Containerization and cloud deployment with Docker and Kubernetes.
+      \item Automated OCR certificate scrutiny using cloud vision APIs.
+      \item Production payment gateway integration with webhook signature validation.
+      \item Rank list generation and automated multi-phase seat allotment.
+    \end{itemize}
+  \end{block}
+\end{frame}
+
+% SLIDE 17
+\begin{frame}[plain]
+  \vfill
+  \centering
+  {\Huge\textbf{\color{NavyBlue} Thank You!}}\\[0.6cm]
+  {\Large Questions and Discussion}\\[1.2cm]
+  \begin{columns}[T,onlytextwidth]
+    \begin{column}{0.49\textwidth}
+      \centering
+      \textbf{Project Repository}\\[2pt]
+      \texttt{github.com/ras-al/keamWebsite-clone}
+    \end{column}
+    \begin{column}{0.49\textwidth}
+      \centering
+      \textbf{Department of CSE}\\[2pt]
+      T.K.M. College of Engineering, Kollam
+    \end{column}
+  \end{columns}
+  \vfill
+\end{frame}
+
+\end{document}

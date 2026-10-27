@@ -58,11 +58,24 @@ function bindDonateButtons() {
 
 function initModals() {
   const donateModal = document.getElementById("donateModal");
-  const startModal = document.getElementById("startModal");
-  const authModal = document.getElementById("authModal");
+  const startModal  = document.getElementById("startModal");
+  const authModal   = document.getElementById("authModal");
+  const userModal   = document.getElementById("userModal");
   const modalCloseBtns = document.querySelectorAll(".modal-close-btn");
 
   bindDonateButtons();
+
+  // Inline Alert Helpers
+  function showAuthAlert(el, message, isError = true) {
+    if (!el) return;
+    el.className = `auth-alert ${isError ? "error" : "success"}`;
+    el.innerHTML = `<span>${isError ? "⚠️" : "✔"}</span> <span>${message}</span>`;
+    el.style.display = "flex";
+  }
+
+  function hideAuthAlert(el) {
+    if (el) el.style.display = "none";
+  }
 
   // Helper to sync logged-in state across the UI
   function updateAuthState() {
@@ -74,47 +87,79 @@ function initModals() {
     if (savedUserStr) {
       try {
         const user = JSON.parse(savedUserStr);
-        const displayHandle = user.username ? `@${user.username}` : user.name.split(" ")[0];
+        const displayHandle = user.username ? `@${user.username}` : (user.name ? user.name.split(" ")[0] : "User");
         signinBtns.forEach((btn) => {
           btn.innerHTML = `<span style="display:inline-flex; align-items:center; gap:6px;">👤 <strong>${displayHandle}</strong></span>`;
-          btn.title = `Logged in as ${user.email} (Click to Sign Out)`;
+          btn.title = `Logged in as @${user.username || user.email} (Click to view Profile / Sign Out)`;
           btn.classList.add("logged-in");
         });
 
+        // Update User Profile Modal Details
+        const profName = document.getElementById("userProfileName");
+        const profHandle = document.getElementById("userProfileHandle");
+        const profEmail = document.getElementById("userProfileEmail");
+        const profRole = document.getElementById("userProfileRole");
+
+        if (profName) profName.innerText = user.name || "Ketto Member";
+        if (profHandle) profHandle.innerText = user.username ? `@${user.username}` : "";
+        if (profEmail) profEmail.innerText = user.email || "";
+        if (profRole) profRole.innerText = user.role || "Donor";
+
         if (donorNameInput && !donorNameInput.value) donorNameInput.value = user.name;
         if (donorEmailInput && !donorEmailInput.value) donorEmailInput.value = user.email;
-      } catch (e) {}
+      } catch (e) {
+        console.error("Error reading saved user:", e);
+      }
     } else {
       signinBtns.forEach((btn) => {
         btn.innerText = "Sign In";
         btn.classList.remove("logged-in");
-        btn.title = "Sign In";
+        btn.title = "Sign In / Join Ketto";
       });
     }
   }
 
   updateAuthState();
 
-  // Open Sign In Modal (or sign out if already logged in)
+  // Click Sign In button (opens Auth modal or User Profile modal if logged in)
   const signinBtns = document.querySelectorAll(".btn-signin");
   signinBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
       e.preventDefault();
-      if (localStorage.getItem("ketto_user")) {
-        if (confirm("Do you want to sign out?")) {
-          localStorage.removeItem("ketto_user");
-          updateAuthState();
-          showToast("Signed out successfully.");
-        }
+      const currentUser = localStorage.getItem("ketto_user");
+      if (currentUser) {
+        if (userModal) userModal.classList.add("active");
         return;
       }
       if (authModal) {
+        hideAuthAlert(document.getElementById("signinAlert"));
+        hideAuthAlert(document.getElementById("registerAlert"));
         authModal.classList.add("active");
       }
     });
   });
 
-  // Open Start Fundraiser Modal
+  // Logout button handler in User Modal
+  const logoutBtn = document.getElementById("logoutBtn");
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      localStorage.removeItem("ketto_user");
+      if (userModal) userModal.classList.remove("active");
+      updateAuthState();
+      showToast("Signed out successfully.");
+    });
+  }
+
+  // "Start Fundraiser" shortcut from user profile modal
+  const startFundraiserProfileBtn = document.getElementById("startFundraiserProfileBtn");
+  if (startFundraiserProfileBtn) {
+    startFundraiserProfileBtn.addEventListener("click", () => {
+      if (userModal) userModal.classList.remove("active");
+      if (startModal) startModal.classList.add("active");
+    });
+  }
+
+  // Open Start Fundraiser Modal from regular CTAs
   const startBtns = document.querySelectorAll(".open-start-modal");
   startBtns.forEach((btn) => {
     btn.addEventListener("click", (e) => {
@@ -131,6 +176,7 @@ function initModals() {
       if (donateModal) donateModal.classList.remove("active");
       if (startModal) startModal.classList.remove("active");
       if (authModal) authModal.classList.remove("active");
+      if (userModal) userModal.classList.remove("active");
     });
   });
 
@@ -139,10 +185,11 @@ function initModals() {
     if (e.target === donateModal) donateModal.classList.remove("active");
     if (e.target === startModal) startModal.classList.remove("active");
     if (e.target === authModal) authModal.classList.remove("active");
+    if (e.target === userModal) userModal.classList.remove("active");
   });
 
   // ============================================================
-  // AUTH TAB SWITCHER  (called by inline onclick in HTML)
+  // AUTH TAB SWITCHER
   // ============================================================
   window.switchAuthTab = function (tab) {
     const signinPanel   = document.getElementById("signinPanel");
@@ -150,20 +197,31 @@ function initModals() {
     const tabSignIn     = document.getElementById("tabSignIn");
     const tabRegister   = document.getElementById("tabRegister");
 
+    hideAuthAlert(document.getElementById("signinAlert"));
+    hideAuthAlert(document.getElementById("registerAlert"));
+
     if (tab === "signin") {
-      signinPanel.style.display   = "";
-      registerPanel.style.display = "none";
-      tabSignIn.style.color        = "#01bfbd";
-      tabSignIn.style.borderBottom = "3px solid #01bfbd";
-      tabRegister.style.color        = "#9ca3af";
-      tabRegister.style.borderBottom = "3px solid transparent";
+      if (signinPanel) signinPanel.style.display   = "";
+      if (registerPanel) registerPanel.style.display = "none";
+      if (tabSignIn) {
+        tabSignIn.style.color        = "#01bfbd";
+        tabSignIn.style.borderBottom = "3px solid #01bfbd";
+      }
+      if (tabRegister) {
+        tabRegister.style.color        = "#9ca3af";
+        tabRegister.style.borderBottom = "3px solid transparent";
+      }
     } else {
-      signinPanel.style.display   = "none";
-      registerPanel.style.display = "";
-      tabRegister.style.color        = "#01bfbd";
-      tabRegister.style.borderBottom = "3px solid #01bfbd";
-      tabSignIn.style.color        = "#9ca3af";
-      tabSignIn.style.borderBottom = "3px solid transparent";
+      if (signinPanel) signinPanel.style.display   = "none";
+      if (registerPanel) registerPanel.style.display = "";
+      if (tabRegister) {
+        tabRegister.style.color        = "#01bfbd";
+        tabRegister.style.borderBottom = "3px solid #01bfbd";
+      }
+      if (tabSignIn) {
+        tabSignIn.style.color        = "#9ca3af";
+        tabSignIn.style.borderBottom = "3px solid transparent";
+      }
     }
   };
 
@@ -172,9 +230,12 @@ function initModals() {
   // ============================================================
   window.suggestUsername = function (name) {
     const input = document.getElementById("regUsername");
-    if (!input || input.value.length > 0) return;
+    if (!input || input.value.trim().length > 0) return;
     const base = name.toLowerCase().trim().replace(/\s+/g, "_").replace(/[^a-z0-9_]/g, "");
-    if (base.length >= 3) input.value = base;
+    if (base.length >= 3) {
+      input.value = base;
+      window.checkUsernameAvail(base);
+    }
   };
 
   // ============================================================
@@ -184,7 +245,7 @@ function initModals() {
   window.checkUsernameAvail = function (val) {
     const status = document.getElementById("usernameStatus");
     if (!status) return;
-    const clean = val.toLowerCase().replace(/\s+/g, "");
+    const clean = val.toLowerCase().replace(/\s+/g, "").replace(/^@/, "");
     if (clean.length < 3) {
       status.textContent = "";
       return;
@@ -195,7 +256,7 @@ function initModals() {
       return;
     }
     status.style.color = "#9ca3af";
-    status.textContent = "Checking…";
+    status.textContent = "Checking availability…";
     clearTimeout(usernameCheckTimer);
     usernameCheckTimer = setTimeout(async () => {
       try {
@@ -211,21 +272,84 @@ function initModals() {
       } catch {
         status.textContent = "";
       }
-    }, 600);
+    }, 450);
   };
 
   // ============================================================
-  // SIGN IN  (email or username)
+  // PASSWORD VISIBILITY TOGGLE
+  // ============================================================
+  window.togglePasswordVisibility = function (inputId, btn) {
+    const input = document.getElementById(inputId);
+    if (!input) return;
+    if (input.type === "password") {
+      input.type = "text";
+      if (btn) btn.innerHTML = "&#x1F576;&#xFE0F;"; // sunglasses / unmasked
+    } else {
+      input.type = "password";
+      if (btn) btn.innerHTML = "&#x1F441;"; // eye
+    }
+  };
+
+  // ============================================================
+  // REAL-TIME PASSWORD MATCHING & LENGTH CHECK
+  // ============================================================
+  window.checkPasswordMatch = function () {
+    const pwd = document.getElementById("regPassword")?.value || "";
+    const confirm = document.getElementById("regConfirmPassword")?.value || "";
+    const matchStatus = document.getElementById("passwordMatchStatus");
+    const hint = document.getElementById("regPassHint");
+
+    if (hint) {
+      if (pwd.length > 0 && pwd.length < 6) {
+        hint.style.color = "#ef4444";
+        hint.textContent = `Must be at least 6 characters (${pwd.length}/6 entered)`;
+      } else if (pwd.length >= 6) {
+        hint.style.color = "#22c55e";
+        hint.textContent = `✔ Password length valid (${pwd.length} chars)`;
+      } else {
+        hint.style.color = "#9ca3af";
+        hint.textContent = "Must be at least 6 characters";
+      }
+    }
+
+    if (!matchStatus) return;
+    if (!confirm) {
+      matchStatus.textContent = "";
+      return;
+    }
+
+    if (pwd === confirm) {
+      matchStatus.style.color = "#22c55e";
+      matchStatus.textContent = "✔ Passwords match";
+    } else {
+      matchStatus.style.color = "#ef4444";
+      matchStatus.textContent = "✖ Passwords do not match";
+    }
+  };
+
+  // ============================================================
+  // SIGN IN — POST /api/users/signin (by email or username + password)
   // ============================================================
   const authSubmitBtn = document.getElementById("authSubmitBtn");
   if (authSubmitBtn) {
     authSubmitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
 
+      const signinAlert = document.getElementById("signinAlert");
+      hideAuthAlert(signinAlert);
+
       const identifier = document.getElementById("siIdentifier")?.value?.trim() || "";
+      const password   = document.getElementById("siPassword")?.value || "";
 
       if (!identifier) {
-        showToast("Please enter your email or @username.", true);
+        showAuthAlert(signinAlert, "Please enter your email or username.");
+        showToast("Please enter your email or username.", true);
+        return;
+      }
+
+      if (!password) {
+        showAuthAlert(signinAlert, "Please enter your password.");
+        showToast("Please enter your password.", true);
         return;
       }
 
@@ -233,11 +357,13 @@ function initModals() {
       authSubmitBtn.innerText = "Signing in…";
       authSubmitBtn.disabled  = true;
 
-      // Detect email vs username
-      const isEmail  = identifier.includes("@") && identifier.includes(".");
-      const payload  = isEmail
-        ? { email: identifier }
-        : { username: identifier.replace(/^@/, "") };
+      const cleanId = identifier.replace(/^@/, "").trim();
+      const isEmail = cleanId.includes("@") && cleanId.includes(".");
+      const payload = {
+        identifier: cleanId,
+        ...(isEmail ? { email: cleanId } : { username: cleanId }),
+        password
+      };
 
       try {
         const response = await fetch(`${API_BASE_URL}/users/signin`, {
@@ -249,27 +375,24 @@ function initModals() {
         const data = await response.json();
 
         if (response.ok && data.success && data.data) {
+          // Authentication successful!
           localStorage.setItem("ketto_user", JSON.stringify(data.data));
           if (authModal) authModal.classList.remove("active");
+          const pwdEl = document.getElementById("siPassword");
+          if (pwdEl) pwdEl.value = "";
           updateAuthState();
           showToast(data.message || `Welcome back, @${data.data.username}!`);
         } else {
-          // If not found, nudge them to register
-          if (response.status === 404) {
-            showToast("No account found. Please register first.", true);
-            window.switchAuthTab("register");
-          } else {
-            showToast(data.message || "Sign in failed. Please try again.", true);
-          }
+          // Password incorrect, user not found, or invalid input
+          const errMsg = data.message || "Sign in failed. Please check your credentials.";
+          showAuthAlert(signinAlert, errMsg, true);
+          showToast(errMsg, true);
         }
       } catch (err) {
-        console.error("Sign in error:", err);
-        // Offline graceful fallback
-        const fallback = { name: identifier.replace(/^@/, ""), username: identifier.replace(/^@/, ""), email: identifier };
-        localStorage.setItem("ketto_user", JSON.stringify(fallback));
-        if (authModal) authModal.classList.remove("active");
-        updateAuthState();
-        showToast("Welcome to Ketto! (offline mode)");
+        console.error("Sign in network error:", err);
+        const netMsg = "Could not connect to backend server. Please verify backend is running on http://localhost:5000.";
+        showAuthAlert(signinAlert, netMsg, true);
+        showToast(netMsg, true);
       } finally {
         authSubmitBtn.innerText = originalText;
         authSubmitBtn.disabled  = false;
@@ -278,28 +401,60 @@ function initModals() {
   }
 
   // ============================================================
-  // REGISTER  — POST /api/users/register
+  // REGISTER — POST /api/users/register
   // ============================================================
   const regSubmitBtn = document.getElementById("regSubmitBtn");
   if (regSubmitBtn) {
     regSubmitBtn.addEventListener("click", async (e) => {
       e.preventDefault();
 
-      const name     = document.getElementById("regName")?.value?.trim()     || "";
-      const username = document.getElementById("regUsername")?.value?.trim() || "";
-      const email    = document.getElementById("regEmail")?.value?.trim()    || "";
-      const phone    = document.getElementById("regPhone")?.value?.trim()    || "";
+      const regAlert = document.getElementById("registerAlert");
+      hideAuthAlert(regAlert);
 
-      // Client-side validation
-      if (!name) { showToast("Please enter your full name.", true); return; }
-      if (!username || username.length < 3) { showToast("Username must be at least 3 characters.", true); return; }
-      if (!/^[a-z0-9_]+$/i.test(username)) { showToast("Username: only letters, numbers, underscores.", true); return; }
-      if (!email || !/^\S+@\S+\.\S+$/.test(email)) { showToast("Please enter a valid email address.", true); return; }
+      const name            = document.getElementById("regName")?.value?.trim()            || "";
+      const username        = document.getElementById("regUsername")?.value?.trim().replace(/^@/, "") || "";
+      const email           = document.getElementById("regEmail")?.value?.trim()           || "";
+      const password        = document.getElementById("regPassword")?.value                || "";
+      const confirmPassword = document.getElementById("regConfirmPassword")?.value         || "";
+      const phone           = document.getElementById("regPhone")?.value?.trim()           || "";
 
-      // Block if username is already flagged taken
+      // Client-side validations
+      if (!name) {
+        showAuthAlert(regAlert, "Please enter your full name.");
+        showToast("Please enter your full name.", true);
+        return;
+      }
+      if (!username || username.length < 3) {
+        showAuthAlert(regAlert, "Username must be at least 3 characters long.");
+        showToast("Username must be at least 3 characters.", true);
+        return;
+      }
+      if (!/^[a-z0-9_]{3,30}$/i.test(username)) {
+        showAuthAlert(regAlert, "Username can only contain letters, numbers, and underscores (3-30 chars).");
+        showToast("Username format invalid.", true);
+        return;
+      }
+      if (!email || !/^\S+@\S+\.\S+$/.test(email)) {
+        showAuthAlert(regAlert, "Please enter a valid email address.");
+        showToast("Please enter a valid email address.", true);
+        return;
+      }
+      if (!password || password.length < 6) {
+        showAuthAlert(regAlert, "Password must be at least 6 characters long.");
+        showToast("Password must be at least 6 characters long.", true);
+        return;
+      }
+      if (password !== confirmPassword) {
+        showAuthAlert(regAlert, "Passwords do not match. Please re-enter.");
+        showToast("Passwords do not match.", true);
+        return;
+      }
+
+      // Check if username is already flagged taken
       const statusEl = document.getElementById("usernameStatus");
       if (statusEl?.textContent?.includes("already taken")) {
-        showToast("That username is taken. Please choose a different one.", true);
+        showAuthAlert(regAlert, `Username @${username} is already taken. Please choose another.`);
+        showToast("Username already taken.", true);
         return;
       }
 
@@ -311,33 +466,44 @@ function initModals() {
         const response = await fetch(`${API_BASE_URL}/users/register`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ name, username: username.toLowerCase(), email, phone })
+          body: JSON.stringify({
+            name,
+            username: username.toLowerCase(),
+            email: email.toLowerCase(),
+            password,
+            confirmPassword,
+            phone
+          })
         });
 
         const data = await response.json();
 
         if (response.ok && data.success && data.data) {
+          // Successfully registered!
           localStorage.setItem("ketto_user", JSON.stringify(data.data));
           if (authModal) authModal.classList.remove("active");
-          // Clear register fields
-          ["regName","regUsername","regEmail","regPhone"].forEach(id => {
+
+          // Clear form fields
+          ["regName","regUsername","regEmail","regPassword","regConfirmPassword","regPhone"].forEach((id) => {
             const el = document.getElementById(id);
             if (el) el.value = "";
           });
           if (statusEl) statusEl.textContent = "";
+          const matchStatus = document.getElementById("passwordMatchStatus");
+          if (matchStatus) matchStatus.textContent = "";
+
           updateAuthState();
-          showToast(data.message || `Welcome, @${data.data.username}! Account created.`);
+          showToast(data.message || `Welcome to Ketto, @${data.data.username}! Account created.`);
         } else {
-          showToast(data.message || "Registration failed. Please try again.", true);
+          const errMsg = data.message || "Registration failed. Please try again.";
+          showAuthAlert(regAlert, errMsg, true);
+          showToast(errMsg, true);
         }
       } catch (err) {
-        console.error("Register error:", err);
-        // Offline fallback
-        const fallback = { name, username: username.toLowerCase(), email, phone };
-        localStorage.setItem("ketto_user", JSON.stringify(fallback));
-        if (authModal) authModal.classList.remove("active");
-        updateAuthState();
-        showToast(`Welcome, @${username}! (offline – saved locally)`);
+        console.error("Register network error:", err);
+        const netMsg = "Could not connect to backend server. Please verify backend is running on http://localhost:5000.";
+        showAuthAlert(regAlert, netMsg, true);
+        showToast(netMsg, true);
       } finally {
         regSubmitBtn.innerText = originalText;
         regSubmitBtn.disabled  = false;
@@ -440,6 +606,87 @@ function initModals() {
     });
   }
 
+  // Toggle "Other (Specify)" input field in Start Fundraiser modal
+  const causeSelect = document.getElementById("startCause");
+  const otherCauseGroup = document.getElementById("startOtherCauseGroup");
+  const otherCauseInput = document.getElementById("startOtherCause");
+
+  if (causeSelect && otherCauseGroup) {
+    causeSelect.addEventListener("change", () => {
+      const isOther = causeSelect.value.toLowerCase().includes("other");
+      otherCauseGroup.style.display = isOther ? "block" : "none";
+      if (isOther && otherCauseInput) {
+        otherCauseInput.focus();
+      }
+    });
+  }
+
+  // ==========================================
+  // CAUSE COVER PHOTO: UPLOAD & LIVE PREVIEW
+  // ==========================================
+  let currentCauseImageData = "";
+  const browseCauseImageBtn = document.getElementById("browseCauseImageBtn");
+  const startImageFile = document.getElementById("startImageFile");
+  const startImageUrl = document.getElementById("startImageUrl");
+  const causeImagePreviewContainer = document.getElementById("causeImagePreviewContainer");
+  const causeImagePreview = document.getElementById("causeImagePreview");
+  const removeCauseImageBtn = document.getElementById("removeCauseImageBtn");
+
+  function resetCauseImageUpload() {
+    currentCauseImageData = "";
+    if (startImageFile) startImageFile.value = "";
+    if (startImageUrl) startImageUrl.value = "";
+    if (causeImagePreview) causeImagePreview.src = "";
+    if (causeImagePreviewContainer) causeImagePreviewContainer.style.display = "none";
+  }
+
+  if (browseCauseImageBtn && startImageFile) {
+    browseCauseImageBtn.addEventListener("click", () => {
+      startImageFile.click();
+    });
+  }
+
+  if (startImageFile) {
+    startImageFile.addEventListener("change", (e) => {
+      const file = e.target.files?.[0];
+      if (file) {
+        if (file.size > 5 * 1024 * 1024) {
+          showToast("Image file size should be less than 5MB.", true);
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = function(evt) {
+          currentCauseImageData = evt.target.result;
+          if (causeImagePreview) causeImagePreview.src = currentCauseImageData;
+          if (causeImagePreviewContainer) causeImagePreviewContainer.style.display = "block";
+          if (startImageUrl) startImageUrl.value = "";
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+  }
+
+  if (startImageUrl) {
+    startImageUrl.addEventListener("input", (e) => {
+      const url = e.target.value.trim();
+      if (url && (url.startsWith("http://") || url.startsWith("https://") || url.startsWith("data:image/") || url.startsWith("assets/"))) {
+        currentCauseImageData = url;
+        if (causeImagePreview) causeImagePreview.src = url;
+        if (causeImagePreviewContainer) causeImagePreviewContainer.style.display = "block";
+        if (startImageFile) startImageFile.value = "";
+      } else if (!url && (!startImageFile || !startImageFile.files?.length)) {
+        currentCauseImageData = "";
+        if (causeImagePreviewContainer) causeImagePreviewContainer.style.display = "none";
+      }
+    });
+  }
+
+  if (removeCauseImageBtn) {
+    removeCauseImageBtn.addEventListener("click", () => {
+      resetCauseImageUpload();
+    });
+  }
+
   // ==========================================
   // START FUNDRAISER: POST /api/campaigns & ADD TO LIVE UI
   // ==========================================
@@ -459,6 +706,7 @@ function initModals() {
       const daysEl          = document.getElementById("startDaysLeft");
       const mobileInput     = document.getElementById("startMobile");
       const tax80GCheck     = document.getElementById("start80G");
+      const otherCauseEl    = document.getElementById("startOtherCause");
 
       const organizerName = organizerInput?.value?.trim() || "";
       const city          = cityInput?.value?.trim() || "";
@@ -466,6 +714,7 @@ function initModals() {
       const description   = descInput?.value?.trim() || "";
       const beneficiary   = beneficiaryEl?.value || "Myself / Immediate Family";
       const cause         = causeEl?.value || "Medical Emergency / Surgery";
+      const otherCauseVal = otherCauseEl?.value?.trim() || "";
       const goalAmount    = Number(goalInput?.value) || 500000;
       const daysLeft      = Number(daysEl?.value) || 30;
       const mobile        = mobileInput?.value?.trim() || "";
@@ -480,6 +729,11 @@ function initModals() {
       if (!customTitle) {
         showToast("Please enter a campaign title.", true);
         titleInput?.focus();
+        return;
+      }
+      if (cause.toLowerCase().includes("other") && !otherCauseVal) {
+        showToast("Please specify your fundraising cause.", true);
+        otherCauseEl?.focus();
         return;
       }
       if (!mobile || mobile.length < 8) {
@@ -498,10 +752,10 @@ function initModals() {
       let imageUrl = "assets/images/hero-banner.png";
       let badges   = ["New Fundraiser", has80G ? "Tax Benefit 80G" : "Verified"];
 
-      if (cause.includes("Cancer")) {
-        category = "cancer";
-        imageUrl  = "assets/images/campaign-cancer.png";
-        badges    = ["Urgent Care", has80G ? "80G Exemption" : "Verified"];
+      if (cause.toLowerCase().includes("other")) {
+        category = "others";
+        imageUrl = "assets/images/hero-banner.png";
+        badges   = [otherCauseVal.substring(0, 18), has80G ? "80G Benefit" : "Verified"];
       } else if (cause.includes("Child") || cause.includes("NICU")) {
         category = "children";
         imageUrl  = "assets/images/campaign-nicu.png";
@@ -516,9 +770,15 @@ function initModals() {
         badges    = ["Animal Rescue", "Verified"];
       }
 
+      // If user uploaded a custom cause image or provided a photo URL, override default image
+      if (currentCauseImageData) {
+        imageUrl = currentCauseImageData;
+      }
+
       // Build final title and organizer strings
       const cityStr  = city ? `, ${city}` : "";
-      const finalTitle = customTitle || `Urgent ${cause} Support for ${beneficiary}`;
+      const displayCause = cause.toLowerCase().includes("other") ? otherCauseVal : cause;
+      const finalTitle = customTitle || `Urgent ${displayCause} Support for ${beneficiary}`;
       const organizer  = `${organizerName}${cityStr}`;
 
       const originalText = startSubmitBtn.innerText;
@@ -550,15 +810,22 @@ function initModals() {
         if (response.ok && result.success && result.data) {
           // 2. Close modal & clear form
           if (startModal) startModal.classList.remove("active");
-          [organizerInput, cityInput, titleInput, descInput, mobileInput].forEach(el => { if (el) el.value = ""; });
+          [organizerInput, cityInput, titleInput, descInput, mobileInput, otherCauseEl].forEach(el => { if (el) el.value = ""; });
           if (descInput) descInput.value = "";
+          if (otherCauseGroup) otherCauseGroup.style.display = "none";
+          if (causeEl) causeEl.selectedIndex = 0;
+          resetCauseImageUpload();
 
-          // 3. Inject new campaign card at the TOP of the campaigns grid
-          const grid = document.querySelector(".campaigns-grid");
-          if (grid && typeof renderCampaignCard === "function") {
-            const newCardHtml = renderCampaignCard(result.data);
-            grid.insertAdjacentHTML("afterbegin", newCardHtml);
-            bindDonateButtons();
+          // 3. Inject new campaign card into campaigns state & live grid
+          if (typeof window.addNewCampaign === "function") {
+            window.addNewCampaign(result.data);
+          } else {
+            const grid = document.querySelector(".campaigns-grid");
+            if (grid && typeof renderCampaignCard === "function") {
+              const newCardHtml = renderCampaignCard(result.data);
+              grid.insertAdjacentHTML("afterbegin", newCardHtml);
+              bindDonateButtons();
+            }
           }
 
           // 4. Celebration toast + smooth scroll to campaigns section
@@ -589,10 +856,16 @@ function initModals() {
           progressPercent: 0
         };
 
-        const grid = document.querySelector(".campaigns-grid");
-        if (grid && typeof renderCampaignCard === "function") {
-          grid.insertAdjacentHTML("afterbegin", renderCampaignCard(fallbackCampaign));
-          bindDonateButtons();
+        resetCauseImageUpload();
+
+        if (typeof window.addNewCampaign === "function") {
+          window.addNewCampaign(fallbackCampaign);
+        } else {
+          const grid = document.querySelector(".campaigns-grid");
+          if (grid && typeof renderCampaignCard === "function") {
+            grid.insertAdjacentHTML("afterbegin", renderCampaignCard(fallbackCampaign));
+            bindDonateButtons();
+          }
         }
 
         showToast("🎉 Fundraiser added! (Server offline – data saved locally for demo)");

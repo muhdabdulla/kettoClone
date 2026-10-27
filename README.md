@@ -180,7 +180,9 @@ npm start
 | Method | Endpoint | Description | Status Code |
 | :--- | :--- | :--- | :--- |
 | **GET** | `/api/users` | List registered platform users | `200 OK` |
-| **POST** | `/api/users` | Register a new user | `201 Created` |
+| **POST** | `/api/users/register` | Register new user with password (bcrypt hashed) | `201 Created` |
+| **POST** | `/api/users/signin` | Sign in with email/@username and password | `200 OK` |
+| **GET** | `/api/users/check-username` | Live check username availability (`?username=`) | `200 OK` |
 | **POST** | `/api/leads` | Submit a "Start a Fundraiser" inquiry lead | `201 Created` |
 
 ---

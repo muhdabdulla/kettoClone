@@ -9,21 +9,35 @@ function generateUsername(name) {
 // ==========================================
 // 1. REGISTER — Create a brand-new user
 // @route   POST /api/users/register
-// @desc    Register with name, username, email, phone
+// @desc    Register with name, username, email, password, phone
 // ==========================================
 exports.register = async (req, res, next) => {
   try {
-    const { name, username, email, phone } = req.body;
+    const { name, username, email, password, confirmPassword, phone } = req.body;
 
-    if (!name || !username || !email) {
+    if (!name || !username || !email || !password) {
       return res.status(400).json({
         success: false,
-        message: "Full name, username, and email are required."
+        message: "Full name, username, email, and password are required."
+      });
+    }
+
+    if (confirmPassword && confirmPassword !== password) {
+      return res.status(400).json({
+        success: false,
+        message: "Passwords do not match. Please verify your password."
+      });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({
+        success: false,
+        message: "Password must be at least 6 characters long."
       });
     }
 
     const cleanEmail    = email.toLowerCase().trim();
-    const cleanUsername = username.toLowerCase().trim().replace(/\s+/g, "_");
+    const cleanUsername = username.toLowerCase().trim().replace(/\s+/g, "_").replace(/^@/, "");
 
     // Username format check
     if (!/^[a-z0-9_]{3,30}$/.test(cleanUsername)) {
@@ -54,6 +68,7 @@ exports.register = async (req, res, next) => {
       name: name.trim(),
       username: cleanUsername,
       email: cleanEmail,
+      password: password,
       phone: phone?.trim() || "",
       role: "donor"
     });
@@ -88,34 +103,55 @@ exports.register = async (req, res, next) => {
 };
 
 // ==========================================
-// 2. SIGN IN — By email or username
+// 2. SIGN IN — By email or username with password
 // @route   POST /api/users/signin
-// @desc    Sign in existing user by email or username
+// @desc    Sign in existing user with password
 // ==========================================
 exports.signIn = async (req, res, next) => {
   try {
-    const { email, username } = req.body;
+    const { email, username, identifier, password } = req.body;
+    const loginId = identifier || email || username;
 
-    if (!email && !username) {
+    if (!loginId) {
       return res.status(400).json({
         success: false,
         message: "Please provide your email or username to sign in."
       });
     }
 
-    let user = null;
-
-    if (email) {
-      user = await User.findOne({ email: email.toLowerCase().trim() });
-    } else if (username) {
-      user = await User.findOne({ username: username.toLowerCase().trim() });
+    if (!password) {
+      return res.status(400).json({
+        success: false,
+        message: "Please enter your password."
+      });
     }
+
+    const cleanId = loginId.toLowerCase().trim().replace(/^@/, "");
+
+    // Search by email or username, explicitly selecting password for comparison
+    const user = await User.findOne({
+      $or: [{ email: cleanId }, { username: cleanId }]
+    }).select("+password");
 
     if (!user) {
       return res.status(404).json({
         success: false,
-        message: "No account found. Please register first."
+        message: "No account found with this email or username. Please register first."
       });
+    }
+
+    // If account was created before password auth was introduced, migrate gracefully
+    if (!user.password) {
+      user.password = password;
+      await user.save();
+    } else {
+      const isMatch = await user.comparePassword(password);
+      if (!isMatch) {
+        return res.status(401).json({
+          success: false,
+          message: "Incorrect password. Please try again."
+        });
+      }
     }
 
     res.status(200).json({
@@ -189,6 +225,41 @@ exports.getUserById = async (req, res, next) => {
   }
 };
 
+// ==========================================
+// 6. GET CURRENT USER PROFILE
+// @route   GET /api/users/me?id=xxx or ?username=xxx
+// ==========================================
+exports.getMe = async (req, res, next) => {
+  try {
+    const { id, username, email } = req.query;
+    let query = null;
+    if (id) {
+      query = { _id: id };
+    } else if (username) {
+      query = { username: username.toLowerCase().trim().replace(/^@/, "") };
+    } else if (email) {
+      query = { email: email.toLowerCase().trim() };
+    }
+
+    if (!query) {
+      return res.status(400).json({
+        success: false,
+        message: "Please provide user id, username, or email to fetch profile."
+      });
+    }
+
+    const user = await User.findOne(query).select("-__v");
+    if (!user) {
+      return res.status(404).json({ success: false, message: "User not found." });
+    }
+
+    res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
 // Keep backward-compatible alias for old callers
 exports.signInOrRegister = exports.signIn;
 exports.createUser       = exports.register;
+
